@@ -20,23 +20,25 @@
         
         <i class="fas fa-quote-left"></i>
         <!-- alt+Z to turn on wordwrap -->
-        <span class="quote-text">Some words will make you a hero with massive balls</span>
+        <span class="quote-text" id="quote-text"></span>
         <i class="fas fa-quote-right"></i>
 
         <!-- Author -->
         <div class="quote-author">
-            <span id="author">Buddha</span>
+            <span id="author"></span>
         </div>
 
         <!-- Buttons -->
         <div class="button-conatiner"></div>
-        <button class="tiwtter-button" id="twitter" title="Tweet This!">
+        <button class="twitter-button" id="twitter" title="Tweet This!">
             <i class="fab fa-twitter"></i>
         </button>
 
         <button id="new-quote">New Quote</button>
 
         <!-- Script -->
+        <!-- quotes.js pulls quotes from a local file rather than an API -->
+        <script src="quotes.js"></script>
         <script src="script.js"></script>
 
     </div>
