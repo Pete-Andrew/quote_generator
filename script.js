@@ -79,6 +79,8 @@ function previousQuote() {
     
     quoteText.textContent = calledQuoteIndex[0].text;
     authorText.textContent = calledQuoteIndex[0].author;
+
+    //need to increment the quotes array every time the 'previous quote' button is pressed.
 }
 
 //tweet quote 
