@@ -12,11 +12,25 @@ const newQuoteButton = document.getElementById("new-quote");
 function newQuote() {
     //to pick a random quote from the API using math random
     const quote = apiQuotes[Math.floor(Math.random() * apiQuotes.length)];
-    console.log(quote);
+    //Check if author field is blank and replace it with 'unknown'
+    if(!quote.author) {
+        authorText.textContent = "Unknown"
+    } else {
+        authorText.textContent = quote.author; 
+    }
+
+    // change the font size for long quotes.
+    //passes in the CSS class  
+    if (quote.text.length > 120) {
+        quoteText.classList.add('long-quote');
+    } else {
+        quoteText.classList.remove('long-quote');
+    }
     //.textContent will allow us to pass in a string that is then shown in that element e.g. the Author span in the Quote-author div
     //quote.author and quote.tex breaks sends the relevant part of the authorText object to the relevant div
     quoteText.textContent = quote.text; 
-    authorText.textContent = quote.author; 
+    
+    console.log(quote);
 }
 
 

@@ -93,15 +93,15 @@ button:active {
     box-shadow: 0 0.2rem rgba(255,255,255, 0.65);
 }
 
-.tiwtter-button:hover {
+.twitter-button:hover {
     color: #38a1f3;
 }
 
-.fa-tiwtter {
+.fa-twitter {
     font-size: 1.5rem;
 }
 
-/* always put media quesies at the end of the CSS */
+/* always put media queries at the end of the CSS */
 @media screen and (max-width: 1000px) {
     .quote-container {
         margin: auto 10px;
