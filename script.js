@@ -7,7 +7,8 @@ const quoteText = document.getElementById("quote-text");
 const authorText = document.getElementById("author");
 const twitterButton = document.getElementById("twitter");
 const newQuoteButton = document.getElementById("new-quote");
-const previousQuoteButton = document.getElementById("previous-quote");
+const cycleBackButton = document.getElementById("cycle-back");
+const cycleForwardButton = document.getElementById("cycle-forward");
 
 // Get Quotes from API
 
@@ -32,8 +33,9 @@ function newQuote() {
     //.textContent will allow us to pass in a string that is then shown in that element e.g. the Author span in the Quote-author div
     //quote.author and quote.tex breaks sends the relevant part of the authorText object to the relevant div
     quoteText.textContent = quote.text; 
-    pushToLocalStorage(quote);    
-}
+    pushToLocalStorage(quote);   
+    storedQuoteIndexNumber++; 
+    }
 
 function pushToLocalStorage(quote) {
 
@@ -67,21 +69,66 @@ async function getQuotes() {
     }
 }
 
+//this function has an added check added, without this the script was throwing 'Uncaught TypeError: Cannot read properties of undefined (reading 'text')'
 function previousQuote() { 
     // Retrieve the stored quote from local storage
     let calledQuote = localStorage.getItem('storedQuote');
     console.log("calledQuote = " + calledQuote);
-    //turn it from an object into JSON object so the information can then be called. 
-    let calledQuoteIndex = JSON.parse(calledQuote)
-
-    console.log("stored quote = " + calledQuoteIndex[0].text);
-    console.log("stored quote = " + calledQuoteIndex[0].author);
     
-    quoteText.textContent = calledQuoteIndex[0].text;
-    authorText.textContent = calledQuoteIndex[0].author;
+    // Check if there are stored quotes
+    if (calledQuote) {
+        // Parse the stored quotes
+        let calledQuoteIndex = JSON.parse(calledQuote);
 
-    //need to increment the quotes array every time the 'previous quote' button is pressed.
+        // Check if there are quotes in the array
+        if (calledQuoteIndex.length = 0) {
+            // Decrement the index to get the previous quote
+            storedQuoteIndexNumber--;
+
+            // Check if the index is within bounds
+            if (storedQuoteIndexNumber < 0) {
+                storedQuoteIndexNumber = calledQuoteIndex.length - 1;
+            }
+
+            // Update the quote text and author
+            quoteText.textContent = calledQuoteIndex[storedQuoteIndexNumber].text;
+            authorText.textContent = calledQuoteIndex[storedQuoteIndexNumber].author;
+        }
+    }
 }
+
+function cycleForward() { 
+    // Retrieve the stored quote from local storage
+    let calledQuote = localStorage.getItem('storedQuote');
+    console.log("calledQuote = " + calledQuote);
+    
+    // Check if there are stored quotes
+    if (calledQuote) {
+        // Parse the stored quotes
+        let calledQuoteIndex = JSON.parse(calledQuote);
+
+        // Check if there are quotes in the array
+        if (calledQuoteIndex.length > 0) {
+            // increment the index to get the next existing quote
+            storedQuoteIndexNumber++;
+
+            // Check if the index is within bounds
+            if (storedQuoteIndexNumber < 0) {
+                storedQuoteIndexNumber = calledQuoteIndex.length + 1;
+            }
+            // if you forward cycle past the end of the array it zero's the count and starts at the beginning so you can forward loop through the array. 
+            if (storedQuoteIndexNumber >= calledQuoteIndex.length) {
+                storedQuoteIndexNumber = 0;
+            }
+
+            // Update the quote text and author
+            quoteText.textContent = calledQuoteIndex[storedQuoteIndexNumber].text;
+            authorText.textContent = calledQuoteIndex[storedQuoteIndexNumber].author;
+        }
+    }
+}
+
+
 
 //tweet quote 
 function tweetQuote() {
@@ -94,7 +141,8 @@ window.open(twitterUrl, "_blank")
 
 newQuoteButton.addEventListener("click", newQuote);
 twitterButton.addEventListener("click", tweetQuote);
-previousQuoteButton.addEventListener("click", previousQuote);
+cycleBackButton.addEventListener("click", previousQuote);
+cycleForwardButton.addEventListener("click", cycleForward);
 
 //on load
 getQuotes();
