@@ -1,5 +1,6 @@
 let apiQuotes = [];
 let storedQuotesArray = [];
+let totalNumberOfQuotes = 1;
 let storedQuoteIndexNumber = 0;
 
 const quoteContainer = document.getElementById("quote-container");
@@ -9,6 +10,8 @@ const twitterButton = document.getElementById("twitter");
 const newQuoteButton = document.getElementById("new-quote");
 const cycleBackButton = document.getElementById("cycle-back");
 const cycleForwardButton = document.getElementById("cycle-forward");
+const arrayIndexNumber = document.getElementById("array-index");
+const totalQuoteDiv = document.getElementById("total-quote-number");
 
 // Get Quotes from API
 
@@ -34,8 +37,16 @@ function newQuote() {
     //quote.author and quote.tex breaks sends the relevant part of the authorText object to the relevant div
     quoteText.textContent = quote.text; 
     pushToLocalStorage(quote);   
-    storedQuoteIndexNumber++; 
-    }
+    
+    //pushes the value of totalNumberOfQuotes to the relevant div
+    totalQuoteDiv.textContent = totalNumberOfQuotes;
+    //each time new quote is pushed it increases total number of quotes by one
+    totalNumberOfQuotes++; 
+    
+    
+    // storedQuoteIndexNumber++;
+    quoteNumber();
+}
 
 function pushToLocalStorage(quote) {
 
@@ -73,7 +84,7 @@ async function getQuotes() {
 function previousQuote() { 
     // Retrieve the stored quote from local storage
     let calledQuote = localStorage.getItem('storedQuote');
-    console.log("calledQuote = " + calledQuote);
+    // console.log("calledQuote = " + calledQuote);
     
     // Check if there are stored quotes
     if (calledQuote) {
@@ -81,10 +92,11 @@ function previousQuote() {
         let calledQuoteIndex = JSON.parse(calledQuote);
 
         // Check if there are quotes in the array
-        if (calledQuoteIndex.length = 0) {
+        if (calledQuoteIndex.length >= 0) {
             // Decrement the index to get the previous quote
             storedQuoteIndexNumber--;
 
+            
             // Check if the index is within bounds
             if (storedQuoteIndexNumber < 0) {
                 storedQuoteIndexNumber = calledQuoteIndex.length - 1;
@@ -93,6 +105,7 @@ function previousQuote() {
             // Update the quote text and author
             quoteText.textContent = calledQuoteIndex[storedQuoteIndexNumber].text;
             authorText.textContent = calledQuoteIndex[storedQuoteIndexNumber].author;
+            quoteNumber();
         }
     }
 }
@@ -124,10 +137,14 @@ function cycleForward() {
             // Update the quote text and author
             quoteText.textContent = calledQuoteIndex[storedQuoteIndexNumber].text;
             authorText.textContent = calledQuoteIndex[storedQuoteIndexNumber].author;
+            quoteNumber();
         }
     }
 }
 
+function quoteNumber(){ 
+    arrayIndexNumber.textContent = storedQuoteIndexNumber+1;
+}
 
 
 //tweet quote 
@@ -143,6 +160,7 @@ newQuoteButton.addEventListener("click", newQuote);
 twitterButton.addEventListener("click", tweetQuote);
 cycleBackButton.addEventListener("click", previousQuote);
 cycleForwardButton.addEventListener("click", cycleForward);
+
 
 //on load
 getQuotes();

@@ -101,6 +101,15 @@ button:active {
     font-size: 1.5rem;
 }
 
+.total-quote-number {
+    margin-top: 25px;
+}
+
+
+.quote-number {
+    margin-top: 25px;
+}
+
 /* always put media queries at the end of the CSS */
 @media screen and (max-width: 1000px) {
     .quote-container {
