@@ -1,7 +1,9 @@
 let apiQuotes = [];
 let storedQuotesArray = [];
-let totalNumberOfQuotes = 1;
+
+//starts at 1 as quotes are zero indexed
 let storedQuoteIndexNumber = 0;
+let totalNumberOfQuotes = 0;
 
 const quoteContainer = document.getElementById("quote-container");
 const quoteText = document.getElementById("quote-text");
@@ -17,6 +19,8 @@ const totalQuoteDiv = document.getElementById("total-quote-number");
 
 //show new quote 
 function newQuote() {
+
+    
     //to pick a random quote from the API using math random
     const quote = apiQuotes[Math.floor(Math.random() * apiQuotes.length)];
     //Check if author field is blank and replace it with 'unknown'
@@ -38,14 +42,16 @@ function newQuote() {
     quoteText.textContent = quote.text; 
     pushToLocalStorage(quote);   
     
+    totalNumberOfQuotes++;
     //pushes the value of totalNumberOfQuotes to the relevant div
     totalQuoteDiv.textContent = totalNumberOfQuotes;
     //each time new quote is pushed it increases total number of quotes by one
-    totalNumberOfQuotes++; 
+     
+    console.log(totalNumberOfQuotes);
     
+    //
+    arrayIndexNumber.textContent = totalNumberOfQuotes;
     
-    // storedQuoteIndexNumber++;
-    quoteNumber();
 }
 
 function pushToLocalStorage(quote) {
@@ -137,6 +143,7 @@ function cycleForward() {
             // Update the quote text and author
             quoteText.textContent = calledQuoteIndex[storedQuoteIndexNumber].text;
             authorText.textContent = calledQuoteIndex[storedQuoteIndexNumber].author;
+            
             quoteNumber();
         }
     }
