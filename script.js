@@ -1,5 +1,4 @@
 
-let pexelsAPIKey = "PLCGvXj9CfVouqZ569M1VYwo1gevDYdrEGGpVgi28vG6ufN05t1Z2pMI";
 let apiQuotes = [];
 let storedQuotesArray = [];
 let localJsonQuotes = [];
