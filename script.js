@@ -1,3 +1,5 @@
+
+let pexelsAPIKey = "PLCGvXj9CfVouqZ569M1VYwo1gevDYdrEGGpVgi28vG6ufN05t1Z2pMI";
 let apiQuotes = [];
 let storedQuotesArray = [];
 let localJsonQuotes = [];
@@ -31,42 +33,53 @@ function loadingComplete() {
 // Get Quotes from API
 //show new quote 
 function newQuote() {
-    loading();
-    //add as section that if the loading takes too long to use the local 'quotes.js' JSON instead
-    
 
-    //to pick a random quote from the API using math random
-    const quote = apiQuotes[Math.floor(Math.random() * apiQuotes.length)];
-    //Check if author field is blank and replace it with 'unknown'
-    if (!quote.author) {
-        authorText.textContent = "Unknown"
-    } else {
-        authorText.textContent = quote.author;
-    }
+    $("#quote-container").fadeOut("2000");
 
-    // change the font size for long quotes.
-    //passes in the CSS class  
-    if (quote.text.length > 120) {
-        quoteText.classList.add('long-quote');
-    } else {
-        quoteText.classList.remove('long-quote');
-    }
-    //.textContent will allow us to pass in a string that is then shown in that element e.g. the Author span in the Quote-author div
-    //quote.author and quote.tex breaks sends the relevant part of the authorText object to the relevant div
-    quoteText.textContent = quote.text;
-    pushToLocalStorage(quote);
+    //encasing the following code in the 'setTimeout function delays the new quote generation so it times with the fadeout and fadein. 
+    setTimeout(function () {
 
-    totalNumberOfQuotes++;
-    //pushes the value of totalNumberOfQuotes to the relevant div
-    totalQuoteDiv.textContent = totalNumberOfQuotes;
-    //each time new quote is pushed it increases total number of quotes by one
+        loading();
+        //add as section that if the loading takes too long to use the local 'quotes.js' JSON instead
 
-    console.log(totalNumberOfQuotes);
 
-    //this line sets the current quotes number to the maximum when new quote is generated. The 'quoteNumber' function doesn't need to be called here. 
-    arrayIndexNumber.textContent = totalNumberOfQuotes;
-    //set quote and hide loader
-    loadingComplete();
+        //to pick a random quote from the API using math random
+        const quote = apiQuotes[Math.floor(Math.random() * apiQuotes.length)];
+        //Check if author field is blank and replace it with 'unknown'
+        if (!quote.author) {
+
+            authorText.textContent = "Unknown"
+        } else {
+            authorText.textContent = quote.author;
+        }
+
+        // change the font size for long quotes.
+        //passes in the CSS class  
+        if (quote.text.length > 120) {
+            quoteText.classList.add('long-quote');
+        } else {
+            quoteText.classList.remove('long-quote');
+        }
+        //.textContent will allow us to pass in a string that is then shown in that element e.g. the Author span in the Quote-author div
+        //quote.author and quote.tex breaks sends the relevant part of the authorText object to the relevant div
+        quoteText.textContent = quote.text;
+        pushToLocalStorage(quote);
+
+        totalNumberOfQuotes++;
+        //pushes the value of totalNumberOfQuotes to the relevant div
+        totalQuoteDiv.textContent = totalNumberOfQuotes;
+        //each time new quote is pushed it increases total number of quotes by one
+
+        console.log(totalNumberOfQuotes);
+
+        //this line sets the current quotes number to the maximum when new quote is generated. The 'quoteNumber' function doesn't need to be called here. 
+        arrayIndexNumber.textContent = totalNumberOfQuotes;
+        //set quote and hide loader
+        loadingComplete();
+        // closing part of the setTimeout function, defines the amount of time to wait before running. 
+    }, 350);
+
+    $("#quote-container").fadeIn("2000");
 }
 
 function pushToLocalStorage(quote) {
@@ -102,6 +115,10 @@ async function getQuotes() {
 
 //this function has an added check added, without this the script was throwing 'Uncaught TypeError: Cannot read properties of undefined (reading 'text')'
 function previousQuote() {
+
+    $("#quote-container").fadeOut("2000");
+    //set timeout delays the speed of the code it contains so that it matches with the fade in/fade out
+    setTimeout(function () {
     // Retrieve the stored quote from local storage
     let calledQuote = localStorage.getItem('storedQuote');
     // console.log("calledQuote = " + calledQuote);
@@ -126,11 +143,20 @@ function previousQuote() {
             quoteText.textContent = calledQuoteIndex[storedQuoteIndexNumber].text;
             authorText.textContent = calledQuoteIndex[storedQuoteIndexNumber].author;
             quoteNumber();
+
+            
+            
         }
-    }
+        $("#quote-container").fadeIn("2000");
+        }
+    },350);
 }
 
 function cycleForward() {
+
+    $("#quote-container").fadeOut("2000");
+    
+    setTimeout(function () {
     // Retrieve the stored quote from local storage
     let calledQuote = localStorage.getItem('storedQuote');
     console.log("calledQuote = " + calledQuote);
@@ -160,7 +186,10 @@ function cycleForward() {
 
             quoteNumber();
         }
+
+        $("#quote-container").fadeIn("2000");
     }
+    },350);
 }
 
 function quoteNumber() {
@@ -185,3 +214,6 @@ cycleForwardButton.addEventListener("click", cycleForward);
 //on load
 getQuotes();
 
+// references
+
+//https://www.pexels.com/api/documentation/
