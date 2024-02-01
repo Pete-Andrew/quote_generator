@@ -17,6 +17,9 @@ const cycleForwardButton = document.getElementById("cycle-forward");
 const arrayIndexNumber = document.getElementById("array-index");
 const totalQuoteDiv = document.getElementById("total-quote-number");
 const loader = document.getElementById("loaderID");
+const pexelsBackgroundImage = document.getElementById("body"); 
+
+pexelsBackgroundImage.style.backgroundImage = "url('img/pexels-michael-block-1.jpg')";
 
 // show loader
 function loading() {
@@ -109,6 +112,9 @@ async function getQuotes() {
 
     } catch (error) {
         //Catch error here, might trigger and alert or console log etc. 
+        //use local quotes from local JSON instead of API
+        console.log("API not responding, timeout, use local quotes JSON instead")
+        // const apiUrl = ;
     }
 }
 
