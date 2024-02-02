@@ -6,6 +6,7 @@ let localJsonQuotes = [];
 //quotes are zero indexed
 let storedQuoteIndexNumber = 0;
 let totalNumberOfQuotes = 0;
+const undesirableAuthors = ["Rick Santorum", "Keith O'Brien", "Josh McDowell"];
 
 const quoteContainer = document.getElementById("quote-container");
 const quoteText = document.getElementById("quote-text");
@@ -49,12 +50,14 @@ function newQuote() {
         const quote = apiQuotes[Math.floor(Math.random() * apiQuotes.length)];
         //Check if author field is blank and replace it with 'unknown'
         if (!quote.author) {
-
-            authorText.textContent = "Unknown"
+            authorText.textContent = "Unknown";
+            // a condition to weed out idiots and re-call the function :) 
+        } else if (undesirableAuthors.includes(quote.author)) {
+            console.log("Not my cup of tea");
+            newQuote();
         } else {
             authorText.textContent = quote.author;
         }
-
         // change the font size for long quotes.
         //passes in the CSS class  
         if (quote.text.length > 120) {
@@ -91,7 +94,7 @@ function pushToLocalStorage(quote) {
     let storedQuotes = JSON.stringify(storedQuotesArray);
     localStorage.setItem('storedQuote', storedQuotes);
     console.log("item pushed")
-    console.log("quote = " + storedQuotes)
+    // console.log("quote = " + storedQuotes)
 }
 // pushToLocalStorage();
 
@@ -101,6 +104,8 @@ async function getQuotes() {
     loading();
     const apiUrl = "https://jacintodesign.github.io/quotes-api/data/quotes.json"
     // try allows us to attempt to complete a fetch request from the API, but if it doesn't work we can catch the error info and do something with it.
+
+    apiQuotes = localQuotes;
 
     try {
         const response = await fetch(apiUrl);       //const wont be populated until it receives data from API. 
@@ -112,9 +117,9 @@ async function getQuotes() {
 
     } catch (error) {
         //Catch error here, might trigger and alert or console log etc. 
-        //use local quotes from local JSON instead of API
         console.log("API not responding, timeout, use local quotes JSON instead")
-        // const apiUrl = ;
+        //this uses the local quotes from the quotes.js file if there is no response from the API 
+        apiQuotes = localQuotes;
     }
 }
 
@@ -222,3 +227,8 @@ getQuotes();
 // references
 
 //https://www.pexels.com/api/documentation/
+
+//Rick Santorum
+//Keith O'Brien
+//Josh McDowell
+//Cat Stevens
