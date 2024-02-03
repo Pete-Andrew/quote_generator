@@ -71,11 +71,13 @@ function newQuote() {
         pushToLocalStorage(quote);
 
         totalNumberOfQuotes++;
+        // storedQuoteIndexNumber++;
+
+        console.log("total number of quotes = " + totalNumberOfQuotes);
+        // console.log("stored quote index number = " + storedQuoteIndexNumber);
         //pushes the value of totalNumberOfQuotes to the relevant div
         totalQuoteDiv.textContent = totalNumberOfQuotes;
         //each time new quote is pushed it increases total number of quotes by one
-
-        console.log(totalNumberOfQuotes);
 
         //this line sets the current quotes number to the maximum when new quote is generated. The 'quoteNumber' function doesn't need to be called here. 
         arrayIndexNumber.textContent = totalNumberOfQuotes;
@@ -125,14 +127,14 @@ async function getQuotes() {
 
 //this function has an added check added, without this the script was throwing 'Uncaught TypeError: Cannot read properties of undefined (reading 'text')'
 function previousQuote() {
-
+    
     $("#quote-container").fadeOut("2000");
     //set timeout delays the speed of the code it contains so that it matches with the fade in/fade out
     setTimeout(function () {
     // Retrieve the stored quote from local storage
     let calledQuote = localStorage.getItem('storedQuote');
     // console.log("calledQuote = " + calledQuote);
-
+        
     // Check if there are stored quotes
     if (calledQuote) {
         // Parse the stored quotes
@@ -142,8 +144,7 @@ function previousQuote() {
         if (calledQuoteIndex.length >= 0) {
             // Decrement the index to get the previous quote
             storedQuoteIndexNumber--;
-
-
+            console.log("previous quote called");
             // Check if the index is within bounds
             if (storedQuoteIndexNumber < 0) {
                 storedQuoteIndexNumber = calledQuoteIndex.length - 1;
@@ -152,10 +153,7 @@ function previousQuote() {
             // Update the quote text and author
             quoteText.textContent = calledQuoteIndex[storedQuoteIndexNumber].text;
             authorText.textContent = calledQuoteIndex[storedQuoteIndexNumber].author;
-            quoteNumber();
-
-            
-            
+            quoteNumber();                  
         }
         $("#quote-container").fadeIn("2000");
         }
@@ -169,7 +167,7 @@ function cycleForward() {
     setTimeout(function () {
     // Retrieve the stored quote from local storage
     let calledQuote = localStorage.getItem('storedQuote');
-    console.log("calledQuote = " + calledQuote);
+    // console.log("calledQuote = " + calledQuote);
 
     // Check if there are stored quotes
     if (calledQuote) {
@@ -227,6 +225,8 @@ getQuotes();
 // references
 
 //https://www.pexels.com/api/documentation/
+
+// black list of people who's wit and wisdom are neither witty nor wise:
 
 //Rick Santorum
 //Keith O'Brien
