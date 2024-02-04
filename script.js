@@ -4,8 +4,10 @@ let storedQuotesArray = [];
 let localJsonQuotes = [];
 
 //quotes are zero indexed
-let storedQuoteIndexNumber = 0;
+
 let totalNumberOfQuotes = 0;
+let storedQuoteIndexNumber = 0;
+
 const undesirableAuthors = ["Rick Santorum", "Keith O'Brien", "Josh McDowell"];
 
 const quoteContainer = document.getElementById("quote-container");
@@ -78,9 +80,10 @@ function newQuote() {
         //pushes the value of totalNumberOfQuotes to the relevant div
         totalQuoteDiv.textContent = totalNumberOfQuotes;
         //each time new quote is pushed it increases total number of quotes by one
-
+        //the following line needs to be called so that the current quote number = the total number of quotes when a new quote is called. 
+        storedQuoteIndexNumber = totalNumberOfQuotes
         //this line sets the current quotes number to the maximum when new quote is generated. The 'quoteNumber' function doesn't need to be called here. 
-        arrayIndexNumber.textContent = totalNumberOfQuotes;
+        arrayIndexNumber.textContent = storedQuoteIndexNumber;
         //set quote and hide loader
         loadingComplete();
         // closing part of the setTimeout function, defines the amount of time to wait before running. 
@@ -101,7 +104,8 @@ function pushToLocalStorage(quote) {
 // pushToLocalStorage();
 
 // asynchronous fetch request within a try/catch statement
-// asynchronous functions can be run at any time independently and won't stop the browser loading th page. 
+// asynchronous functions can be run at any time independently and won't stop the browser loading the page. 
+//getQuotes function runs on page start up.
 async function getQuotes() {
     loading();
     const apiUrl = "https://jacintodesign.github.io/quotes-api/data/quotes.json"
@@ -153,7 +157,9 @@ function previousQuote() {
             // Update the quote text and author
             quoteText.textContent = calledQuoteIndex[storedQuoteIndexNumber].text;
             authorText.textContent = calledQuoteIndex[storedQuoteIndexNumber].author;
-            quoteNumber();                  
+            
+            arrayIndexNumber.textContent = storedQuoteIndexNumber + 1;
+                              
         }
         $("#quote-container").fadeIn("2000");
         }
@@ -191,8 +197,8 @@ function cycleForward() {
             // Update the quote text and author
             quoteText.textContent = calledQuoteIndex[storedQuoteIndexNumber].text;
             authorText.textContent = calledQuoteIndex[storedQuoteIndexNumber].author;
-
-            quoteNumber();
+            arrayIndexNumber.textContent = storedQuoteIndexNumber + 1;
+            
         }
 
         $("#quote-container").fadeIn("2000");
@@ -200,9 +206,7 @@ function cycleForward() {
     },350);
 }
 
-function quoteNumber() {
-    arrayIndexNumber.textContent = storedQuoteIndexNumber + 1;
-}
+
 
 //tweet quote 
 function tweetQuote() {
